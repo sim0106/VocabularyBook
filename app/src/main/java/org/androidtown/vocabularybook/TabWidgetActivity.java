@@ -6,12 +6,20 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+import com.parse.Parse;
+import com.parse.ParseInstallation;
+
 public class TabWidgetActivity extends TabActivity {
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Parse.initialize(this, "zM54uKzksfuRmkODVZV8sqmidQIfnJDXdjNbb9ML", "iAhEINfLL3tPFDN6kCrBaxBmuMAdNVhQyR1Vy7tT");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Resources res = getResources();  //리소스 객체 생성
         TabHost tabHost = getTabHost();  //TabHost 객체 생성
@@ -38,6 +46,8 @@ public class TabWidgetActivity extends TabActivity {
 
         tabHost.setCurrentTab(0); //초기 선택 탭 설정
     }
+
+
 }
 
 

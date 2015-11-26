@@ -41,7 +41,7 @@ public class PlusButtonActivity extends Dialog {
         addCancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View v){
-                cancel();
+                dismiss();
             }
         });
     }

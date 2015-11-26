@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 public class Tab1Activity extends Activity {
     PlusButtonActivity plusButtonDialog;
     Button showDialog;
-
+    Button deleteWord;
     private DBAdapter mDb;
     private ArrayList<Info> mInfo;
     private ArrayAdapter<Info> mAdapter;
@@ -38,10 +37,13 @@ public class Tab1Activity extends Activity {
 
         mDb= new DBAdapter(this);
         mInfo = mDb.getAllInfo();
-        mAdapter = new ArrayAdapter<Info>(this, android.R.layout.simple_list_item_1,mInfo);
+        mAdapter = new ArrayAdapter<Info>(this, android.R.layout.simple_list_item_single_choice,mInfo);
         listView.setAdapter(mAdapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
 
         showDialog=(Button)findViewById(R.id.showDialog);
+        deleteWord=(Button)findViewById(R.id.deleteWord);
         //다이얼로그 객체 생성
         plusButtonDialog = new PlusButtonActivity(Tab1Activity.this);
         plusButtonDialog.setTitle("단어추가");
@@ -65,21 +67,22 @@ public class Tab1Activity extends Activity {
             }
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Info i = mInfo.get(position);
-                Toast.makeText(Tab1Activity.this, "delete " + i.getWord(), Toast.LENGTH_SHORT).show();
-                mDb.deleteInfo(i.getId());
-                refreshList();
-                return false;
-            }
-        });
-
         showDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 plusButtonDialog.show();
+            }
+        });
+
+        deleteWord.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                int pos = listView.getCheckedItemPosition();
+                if(pos != ListView.INVALID_POSITION){
+                    mInfo.remove(pos);
+                    listView.clearChoices();
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -104,6 +107,8 @@ public class Tab1Activity extends Activity {
         mInfo.addAll(mDb.getAllInfo());
         mAdapter.notifyDataSetInvalidated();
     }
+
+
 }
 
 
