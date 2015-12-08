@@ -23,13 +23,15 @@ public class DBAdapter extends SQLiteOpenHelper {
             "CREATE TABLE " + TABLE_NAME + " (" +
                     ID + " integer primary key autoincrement, " +
                     WORD + " text not null, " +
-                    MEANING + " text not null )";
+                    MEANING + " text not null );";
 
     private SQLiteDatabase db;
+
 
     public DBAdapter(Context context) {
         super(context, DB_NAME, null, VERSION);
         db = this.getWritableDatabase();
+
     }
 
     @Override
@@ -60,6 +62,7 @@ public class DBAdapter extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(WORD, word);
         cv.put(MEANING, meaning);
+
         return db.insert(TABLE_NAME, null, cv) != -1;
     }
 
@@ -70,14 +73,16 @@ public class DBAdapter extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             final int indexId = c.getColumnIndex(ID);
-            final int indexMeeting = c.getColumnIndex(WORD);
-            final int indexTime = c.getColumnIndex(MEANING);
+            final int indexWord = c.getColumnIndex(WORD);
+            final int indexMeaning = c.getColumnIndex(MEANING);
+
 
             do {
                 int id = c.getInt(indexId);
-                String meeting = c.getString(indexMeeting);
-                String time = c.getString(indexTime);
-                info.add(new Info(id, meeting, time));
+                String word = c.getString(indexWord);
+                String meaning = c.getString(indexMeaning);
+
+                info.add(new Info(id, word, meaning));
             } while (c.moveToNext());
         }
         c.close();
@@ -85,11 +90,52 @@ public class DBAdapter extends SQLiteOpenHelper {
         return info;
     }
 
+    public ArrayList<Info> getWord() {
+        ArrayList<Info> info = new ArrayList<Info>();
+        Cursor c = db.query(TABLE_NAME, new String[] {ID, WORD, MEANING}, null, null, null, null, ID + " DESC");
+
+        if (c.moveToFirst()) {
+            final int indexId = c.getColumnIndex(ID);
+            final int indexWord = c.getColumnIndex(WORD);
+            final int indexMeaning = c.getColumnIndex(MEANING);
+
+            do {
+                int id = c.getInt(indexId);
+                String word = c.getString(indexWord);
+                String meaning = " ";
+
+                info.add(new Info(id, word, meaning));
+            } while (c.moveToNext());
+        }
+        c.close();
+
+        return info;
+    }
+
+    public ArrayList<Info> getidWord(int count){
+        ArrayList<Info> info = new ArrayList<Info>();
+        Cursor c = db.query(TABLE_NAME, new String[]{ID, WORD, MEANING}, null, null, null, null, ID + " DESC");
+        for(int j=0; j<count; j++){
+            c.moveToNext();
+        }
+
+
+
+            int id = c.getInt(0);
+            String word = c.getString(1);
+            String meaning = " ";
+
+            info.add(new Info(id, word, meaning));
+        c.close();
+
+        return info;
+    }
     // update
     public boolean updateInfo(Info i) {
         ContentValues cv = new ContentValues();
         cv.put(WORD, i.getWord());
         cv.put(MEANING, i.getMeaning());
+
         String[] params = new String[] { Integer.toString(i.getId()) };
         int result = db.update(TABLE_NAME, cv, ID + "=?", params);
         return result > 0;
@@ -99,6 +145,7 @@ public class DBAdapter extends SQLiteOpenHelper {
     public boolean deleteInfo(int id) {
         String[] params = new String[] { Integer.toString(id) };
         int result = db.delete(TABLE_NAME, ID + "=?", params);
+
         return result > 0;
     }
 
@@ -106,4 +153,6 @@ public class DBAdapter extends SQLiteOpenHelper {
         int result=db.delete(TABLE_NAME, null, null);
         return result > 0;
     }
+
+
 }

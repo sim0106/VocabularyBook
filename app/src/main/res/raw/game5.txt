@@ -1,0 +1,16 @@
+caculate
+계산하다
+cabin
+객실,선실
+identity
+신원
+illness
+병,아픔
+key
+열쇠
+quantity
+양,수량
+quote
+인용하다
+escape
+달아나다

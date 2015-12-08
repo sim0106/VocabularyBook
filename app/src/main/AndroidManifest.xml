@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <permission android:protectionLevel="signature"
         android:name="org.androidtown.vocabularybook.permission.C2D_MESSAGE" />
@@ -17,7 +17,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".TabWidgetActivity"
             android:label="@string/app_name"
@@ -31,11 +32,14 @@
         <activity android:name=".Tab1Activity"></activity>
         <activity android:name=".Tab2Activity"></activity>
         <activity android:name=".Tab3Activity"></activity>
+        <activity android:name=".Tab4Activity"></activity>
+        <activity android:name=".IntroActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParsePushBroadcastReceiver"
             android:exported="false">
             <intent-filter>
+
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
@@ -46,16 +50,9 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-
                 <category android:name="org.androidtown.vocabularybook" />
             </intent-filter>
         </receiver>
-
-
-
-
-
     </application>
 
 </manifest>

@@ -7,11 +7,12 @@ public class Info {
     private int id;
     private String word;
     private String meaning;
-
+   ;
     public Info(int id, String word, String meaning) {
         this.id = id;
         this.word = word;
         this.meaning = meaning;
+
     }
     public int getId() {
         return id;
@@ -31,7 +32,8 @@ public class Info {
     public void setMeaning(String meaning) {
         this.meaning = meaning;
     }
+
     public String toString() {
-        return String.format("단어 : %s 의미 : %s", word, meaning);
+        return String.format("  단어 : %s" + "\n" + "  의미 : %s" , word, meaning);
     }
 }
